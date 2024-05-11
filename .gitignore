@@ -50,3 +50,56 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Build directory
+build/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Python virtual environment
+venv/
+env/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Simulation output files
+*.log
+*.csv
+*.png
+*.jpg
+*.gif
+
+# Documentation build files
+docs/_build/
+docs/doxygen/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Compressed files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# Backup files
+*~
+*.backup
+
+# Other generated files
+*.pdf
+*.html
+*.xml
