@@ -20,6 +20,9 @@ The project follows a well-organized directory structure to ensure code modulari
 ```
 5G-NR-Modem-Software-Development/
 ├── code/
+│   └── driver/
+│       ├── uart.h
+│       └── uart.c
 │   ├── ras/
 │   │   ├── include/
 │   │   │   └── ras.h
