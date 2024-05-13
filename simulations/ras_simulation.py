@@ -1,6 +1,8 @@
 import numpy as np
-from models.ras_model import RASModel
+from models.ras_model import RASModel # noqa: F401
 import concurrent.futures
+import sys
+import os
 
 class RASSimulation:
     def __init__(self, num_subcarriers, num_symbols, num_antennas):
@@ -45,14 +47,16 @@ class RASSimulation:
         ber = self.calculate_ber(input_signal, output_signal)
         return ber
 
-
 # Example usage
 if __name__ == '__main__':
+    # Add the project root directory to the Python module search path
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
     num_subcarriers = 64
     num_symbols = 100
     num_antennas = 4
     num_iterations = 1000
-    num_workers = 4  # adjust the number of workers according to your system's capabilities
+    num_workers = 4  # Adjust the number of workers according to your system's capabilities
 
     simulation = RASSimulation(num_subcarriers, num_symbols, num_antennas)
     average_ber = simulation.run_simulation(num_iterations, num_workers)

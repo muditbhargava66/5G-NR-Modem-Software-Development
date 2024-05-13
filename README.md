@@ -20,9 +20,9 @@ The project follows a well-organized directory structure to ensure code modulari
 ```
 5G-NR-Modem-Software-Development/
 ├── code/
-│   └── driver/
-│       ├── uart.h
-│       └── uart.c
+│   ├── driver/
+│   │   ├── uart.h
+│   │   └── uart.c
 │   ├── ras/
 │   │   ├── include/
 │   │   │   └── ras.h
@@ -48,7 +48,10 @@ The project follows a well-organized directory structure to ensure code modulari
 └── LICENSE
 ```
 
-- `code/`: Contains the source code for the RAS layer implementation and test framework.
+- `code/`: Contains the source code for the RAS layer implementation, test framework, and UART driver.
+  - `driver/`: Contains the UART driver implementation.
+    - `uart.h`: Header file for the UART driver.
+    - `uart.c`: Source file implementing the UART driver functionality.
   - `ras/`: Implements the RAS layer functionality.
     - `include/`: Contains the header file `ras.h` declaring the RAS layer API.
     - `src/`: Contains the source file `ras.c` implementing the RAS layer functionality.
@@ -58,12 +61,14 @@ The project follows a well-organized directory structure to ensure code modulari
   - `ras_design_documentation.md`: Provides the design documentation for the RAS layer.
   - `ras_test_plan.md`: Outlines the test plan for the RAS layer.
   - `ras_test_report.md`: Presents the test report with results and analysis.
-- `models/`: Contains the modeling and simulation scripts.
+- `models/`: Contains the modeling scripts.
+  - `__init__.py`: Package initialization file for the `models` package.
   - `ras_model.py`: Implements a simple 5G NR modem model.
 - `simulations/`: Contains the simulation scripts.
+  - `__init__.py`: Package initialization file for the `simulations` package.
   - `ras_simulation.py`: Simulates the behavior of the 5G NR modem.
 - `tools/`: Contains the build and test scripts.
-  - `ras_build_script.sh`: Builds the RAS layer and test framework.
+  - `ras_build_script.sh`: Builds the RAS layer, test framework, and UART driver.
   - `ras_test_script.sh`: Runs the test framework and generates test reports.
 - `.gitignore`: Specifies files and directories to be ignored by version control.
 - `README.md`: Provides an overview and instructions for the project.
@@ -95,12 +100,12 @@ Before building and running the project, ensure that you have the following prer
 
 ## Building the Project
 
-To build the RAS layer and test framework, run the following command:
+To build the RAS layer, test framework, and UART driver, run the following command:
 ```
 ./tools/ras_build_script.sh
 ```
 
-This script will compile the RAS layer source code and generate the necessary object files and libraries.
+This script will compile the source code and generate the necessary object files and libraries.
 
 ## Running the Tests
 
@@ -146,11 +151,5 @@ Please ensure that your contributions adhere to the project's coding standards a
 ## License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code as per the terms of the license.
-
----
-
-For any further questions or inquiries, please contact the project maintainer at [muditbhargava66](https://github.com/muditbhargava66).
-
-Happy coding!
 
 ---

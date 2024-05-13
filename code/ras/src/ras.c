@@ -48,6 +48,13 @@ static bool modem_transmit(const uint8_t* data, uint32_t size) {
         return false;
     }
 
+    // print the received data
+    printf("Transmitting data: ");
+    for (uint32_t i = 0; i < size; i++) {
+        printf("%02X ", data[i]);
+    }
+    printf("\n");
+
     return true;
 }
 
@@ -86,11 +93,13 @@ static void log_error(const char* message) {
 }
 
 void ras_init(void) {
+    printf("Initializing RAS layer...\n");
     if (!modem_init()) {
         log_error("Modem initialization failed.");
+        printf("RAS initialization failed.\n");
         return;
     }
-    printf("RAS layer initialized.\n");
+    printf("RAS layer initialized successfully.\n");
 }
 
 ras_status_t ras_transmit_data(const uint8_t* data, uint32_t size) {

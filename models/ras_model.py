@@ -18,10 +18,9 @@ class RASModel:
         if self.channel_matrix is None:
             self.generate_channel_matrix()
 
-        output_signal = np.zeros_like(signal)
+        output_signal = np.zeros((self.num_subcarriers, self.num_symbols, self.num_antennas), dtype=complex)
         for i in range(self.num_subcarriers):
-            for j in range(self.num_symbols):
-                output_signal[i, j] = np.dot(self.channel_matrix[i], signal[i, j].reshape(-1, 1)).reshape(-1)
+            output_signal[i] = np.dot(self.channel_matrix[i], signal[i])
 
         return output_signal
 
@@ -35,7 +34,6 @@ class RASModel:
         equalized_signal = np.zeros_like(signal)
         for i in range(self.num_subcarriers):
             channel_inv = np.linalg.inv(self.channel_matrix[i])
-            for j in range(self.num_symbols):
-                equalized_signal[i, j] = np.dot(channel_inv, signal[i, j].reshape(-1, 1)).reshape(-1)
+            equalized_signal[i] = np.dot(channel_inv, signal[i])
 
         return equalized_signal
