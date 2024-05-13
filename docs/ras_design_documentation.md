@@ -76,7 +76,10 @@ The RAS layer employs the following algorithms:
 3. Perform any necessary error recovery or cleanup actions.
 4. Optionally, notify higher layers about the error.
 
-## 5. Conclusion
+## 5. Simulation and Modeling
+The RAS layer design has been validated through extensive simulations and modeling.
+
+## 6. Conclusion
 The RAS layer design provides a robust and efficient solution for handling data transmission, reception, and error handling in the 5G NR modem software. By following a modular architecture, well-defined interfaces, and optimized algorithms, the RAS layer ensures reliable and high-performance communication within the modem.
 
 ---

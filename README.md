@@ -9,6 +9,7 @@ This project aims to design, implement, and test a 5G NR modem software componen
 - [Building the Project](#building-the-project)
 - [Running the Tests](#running-the-tests)
 - [Simulation and Modeling](#simulation-and-modeling)
+- [Simulation Results](#simulation-results)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -34,11 +35,11 @@ The project follows a well-organized directory structure to ensure code modulari
 │   ├── ras_design_documentation.md
 │   ├── ras_test_plan.md
 │   └── ras_test_report.md
-├── models/
-│   ├── __init__.py
-│   └── ras_model.py
 ├── simulations/
 │   ├── __init__.py
+│   ├── mimo_model.py
+│   ├── ofdm_model.py
+│   ├── ras_model.py
 │   └── ras_simulation.py
 ├── tools/
 │   ├── ras_build_script.sh
@@ -61,12 +62,12 @@ The project follows a well-organized directory structure to ensure code modulari
   - `ras_design_documentation.md`: Provides the design documentation for the RAS layer.
   - `ras_test_plan.md`: Outlines the test plan for the RAS layer.
   - `ras_test_report.md`: Presents the test report with results and analysis.
-- `models/`: Contains the modeling scripts.
-  - `__init__.py`: Package initialization file for the `models` package.
-  - `ras_model.py`: Implements a simple 5G NR modem model.
-- `simulations/`: Contains the simulation scripts.
+- `simulations/`: Contains the simulation models and scripts.
   - `__init__.py`: Package initialization file for the `simulations` package.
-  - `ras_simulation.py`: Simulates the behavior of the 5G NR modem.
+  - `mimo_model.py`: Implements the MIMO channel model.
+  - `ofdm_model.py`: Implements the OFDM channel model.
+  - `ras_model.py`: Implements the RAS channel model.
+  - `ras_simulation.py`: Simulates the behavior of the 5G NR modem with different channel models and modulation schemes.
 - `tools/`: Contains the build and test scripts.
   - `ras_build_script.sh`: Builds the RAS layer, test framework, and UART driver.
   - `ras_test_script.sh`: Runs the test framework and generates test reports.
@@ -94,9 +95,8 @@ To get started with the project, follow these steps:
 
 Before building and running the project, ensure that you have the following prerequisites installed:
 
-- GCC Compiler (version X.X.X or higher)
+- GCC Compiler
 - Python (version 3.10 or higher)
-- Any other required dependencies...
 
 ## Building the Project
 
@@ -118,21 +118,28 @@ The test script will execute the test cases defined in `code/test/ras_test.c` an
 
 ## Simulation and Modeling
 
-The project includes simulation and modeling scripts to evaluate the performance and behavior of the 5G NR modem. To run the simulations and generate the model outputs, use the following commands:
+The project includes simulation models and scripts to evaluate the performance and behavior of the 5G NR modem. The simulations cover different channel models (RAS, OFDM, MIMO) and modulation schemes (QPSK, 16-QAM, 64-QAM).
+
+To run the simulations, use the following command:
 ```
-python models/ras_model.py
 python simulations/ras_simulation.py
 ```
 
-These scripts will execute the modeling and simulation algorithms and provide insights into the modem's performance.
+The simulation script will execute the modeling and simulation algorithms for various scenarios and provide the average Bit Error Rate (BER) for each scenario.
+
+## Simulation Results
+
+The simulation results provide insights into the performance of the 5G NR modem under different channel conditions and modulation schemes. The average BER is calculated for each scenario, and the results are plotted using Matplotlib for visual comparison.
+
+For a detailed analysis of the simulation results, refer to the [Simulation Results Report](docs/simulation_results_report.md) in the `docs/` directory.
 
 ## Documentation
 
-Detailed documentation for the project can be found in the [docs/](/docs) directory. The following documents are available:
+Detailed documentation for the project can be found in the [docs/](docs/) directory. The following documents are available:
 
-- [ras_design_documentation.md](/docs/ras_design_documentation.md): Provides a comprehensive explanation of the RAS layer design, including architecture, interfaces, and algorithms.
-- [ras_test_plan.md](/docs/ras_test_plan.md): Outlines the test plan for the RAS layer, specifying the test cases, expected results, and test coverage.
-- [ras_test_report.md](/docs/ras_test_report.md): Presents the test report with the actual results, analysis, and any identified issues or improvements.
+- [ras_design_documentation.md](docs/ras_design_documentation.md): Provides a comprehensive explanation of the RAS layer design, including architecture, interfaces, and algorithms.
+- [ras_test_plan.md](docs/ras_test_plan.md): Outlines the test plan for the RAS layer, specifying the test cases, expected results, and test coverage.
+- [ras_test_report.md](docs/ras_test_report.md): Presents the test report with the actual results, analysis, and any identified issues or improvements.
 
 Please refer to these documents for a deeper understanding of the project's design, testing strategy, and outcomes.
 
@@ -151,5 +158,11 @@ Please ensure that your contributions adhere to the project's coding standards a
 ## License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code as per the terms of the license.
+
+---
+
+For any further questions or inquiries, please contact the project maintainer at [muditbhargava66](https://github.com/muditbhargava66).
+
+Happy coding!
 
 ---

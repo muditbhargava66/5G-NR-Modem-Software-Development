@@ -1,21 +1,33 @@
 import numpy as np
-from models.ras_model import RASModel # noqa: F401
+from ras_model import RASModel
+from ofdm_model import OFDMModel
+from mimo_model import MIMOModel
 import concurrent.futures
 import sys
 import os
+import matplotlib.pyplot as plt
 
 class RASSimulation:
-    def __init__(self, num_subcarriers, num_symbols, num_antennas):
-        self.model = RASModel(num_subcarriers, num_symbols, num_antennas)
+    def __init__(self, num_subcarriers, num_symbols, num_antennas, model_type, channel_type, modulation_type):
+        if model_type == 'ras':
+            self.model = RASModel(num_subcarriers, num_symbols, num_antennas, channel_type, modulation_type)
+        elif model_type == 'ofdm':
+            self.model = OFDMModel(num_subcarriers, num_symbols, num_antennas, cyclic_prefix_length=16, channel_type=channel_type, modulation_type=modulation_type)
+        elif model_type == 'mimo':
+            self.model = MIMOModel(num_tx_antennas=num_antennas, num_rx_antennas=num_antennas, channel_type=channel_type, modulation_type=modulation_type)
+        else:
+            raise ValueError(f"Invalid model type: {model_type}")
+
         self.num_subcarriers = num_subcarriers
         self.num_symbols = num_symbols
         self.num_antennas = num_antennas
+        self.model_type = model_type
+        self.channel_type = channel_type
+        self.modulation_type = modulation_type
 
     def generate_random_signal(self):
         """Generate a random input signal."""
-        real_part = np.random.randint(0, 2, size=(self.num_subcarriers, self.num_symbols, self.num_antennas))
-        imag_part = np.random.randint(0, 2, size=(self.num_subcarriers, self.num_symbols, self.num_antennas))
-        signal = real_part + 1j * imag_part
+        signal = self.model.generate_random_signal()
         return signal
 
     def simulate_transmission(self, signal):
@@ -49,15 +61,39 @@ class RASSimulation:
 
 # Example usage
 if __name__ == '__main__':
+    # Set a fixed random seed for reproducibility
+    np.random.seed(42)
+
     # Add the project root directory to the Python module search path
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-    num_subcarriers = 64
-    num_symbols = 100
-    num_antennas = 4
     num_iterations = 1000
-    num_workers = 4  # Adjust the number of workers according to your system's capabilities
+    num_workers = 4
 
-    simulation = RASSimulation(num_subcarriers, num_symbols, num_antennas)
-    average_ber = simulation.run_simulation(num_iterations, num_workers)
-    print(f"Average BER: {average_ber:.6f}")
+    # Define the parameters for different scenarios
+    scenarios = [
+        {'model_type': 'ras', 'num_subcarriers': 64, 'num_symbols': 100, 'num_antennas': 4, 'channel_type': 'rayleigh', 'modulation_type': 'qpsk'},
+        {'model_type': 'ofdm', 'num_subcarriers': 128, 'num_symbols': 200, 'num_antennas': 8, 'channel_type': 'rician', 'modulation_type': '16qam'},
+        {'model_type': 'mimo', 'num_subcarriers': 256, 'num_symbols': 150, 'num_antennas': 16, 'channel_type': 'rayleigh', 'modulation_type': '64qam'}
+    ]
+
+    # Run simulations for each scenario and store the results
+    results = []
+    for scenario in scenarios:
+        simulation = RASSimulation(**scenario)
+        average_ber = simulation.run_simulation(num_iterations, num_workers)
+        results.append({'scenario': scenario, 'average_ber': average_ber})
+        print(f"Model: {scenario['model_type']}, Channel: {scenario['channel_type']}, Modulation: {scenario['modulation_type']}, Average BER: {average_ber:.6f}")
+
+    # Plot the BER results for different scenarios
+    fig, ax = plt.subplots()
+    x = np.arange(len(results))
+    ber_values = [result['average_ber'] for result in results]
+    ax.bar(x, ber_values)
+    ax.set_xticks(x)
+    ax.set_xticklabels([f"{result['scenario']['model_type']}\n{result['scenario']['channel_type']}\n{result['scenario']['modulation_type']}" for result in results])
+    ax.set_xlabel('Scenario')
+    ax.set_ylabel('Average BER')
+    ax.set_title('BER Performance for Different Scenarios')
+    plt.tight_layout()
+    plt.show()
