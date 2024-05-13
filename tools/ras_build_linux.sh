@@ -15,10 +15,10 @@ CC=gcc
 CFLAGS="-Wall -Wextra -Werror -pedantic -std=c99 -O3"
 
 # Get Python include and library flags
-PYTHON_INCLUDE=$(python3.10-config --includes)
-PYTHON_LIBS=$(python3.10-config --ldflags)
-PYTHON_LIB_DIR=/opt/homebrew/lib/python3.10/site-packages
-PYTHON_LIB=-lpython3.10
+PYTHON_INCLUDE=$(python3-config --includes)
+PYTHON_LIBS=$(python3-config --ldflags)
+PYTHON_LIB_DIR=$(python3-config --prefix)/lib/python3.x/site-packages
+PYTHON_LIB=-lpython3
 
 # Build the UART driver
 echo "Building UART driver..."

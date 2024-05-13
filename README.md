@@ -7,9 +7,14 @@ This project aims to design, implement, and test a 5G NR modem software componen
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Building the Project](#building-the-project)
+  - [Linux](#linux)
+  - [Windows](#windows)
 - [Running the Tests](#running-the-tests)
+  - [Linux](#linux-1)
+  - [Windows](#windows-1)
 - [Simulation and Modeling](#simulation-and-modeling)
 - [Simulation Results](#simulation-results)
+- [Mathematical Analysis](#mathematical-analysis)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -34,7 +39,8 @@ The project follows a well-organized directory structure to ensure code modulari
 ├── docs/
 │   ├── ras_design_documentation.md
 │   ├── ras_test_plan.md
-│   └── ras_test_report.md
+│   ├── ras_test_report.md
+│   └── images/
 ├── simulations/
 │   ├── __init__.py
 │   ├── mimo_model.py
@@ -42,38 +48,18 @@ The project follows a well-organized directory structure to ensure code modulari
 │   ├── ras_model.py
 │   └── ras_simulation.py
 ├── tools/
+│   ├── ras_build_linux.sh
 │   ├── ras_build_script.sh
-│   └── ras_test_script.sh
+│   ├── ras_build.bat
+│   ├── ras_test_linux.sh
+│   ├── ras_test_script.sh
+│   └── ras_test.bat
 ├── .gitignore
+├── manage
 ├── README.md
+├── requirements.txt
 └── LICENSE
 ```
-
-- `code/`: Contains the source code for the RAS layer implementation, test framework, and UART driver.
-  - `driver/`: Contains the UART driver implementation.
-    - `uart.h`: Header file for the UART driver.
-    - `uart.c`: Source file implementing the UART driver functionality.
-  - `ras/`: Implements the RAS layer functionality.
-    - `include/`: Contains the header file `ras.h` declaring the RAS layer API.
-    - `src/`: Contains the source file `ras.c` implementing the RAS layer functionality.
-  - `test/`: Contains the test framework for the RAS layer.
-    - `ras_test.c`: Implements the test cases for the RAS layer.
-- `docs/`: Contains the project documentation.
-  - `ras_design_documentation.md`: Provides the design documentation for the RAS layer.
-  - `ras_test_plan.md`: Outlines the test plan for the RAS layer.
-  - `ras_test_report.md`: Presents the test report with results and analysis.
-- `simulations/`: Contains the simulation models and scripts.
-  - `__init__.py`: Package initialization file for the `simulations` package.
-  - `mimo_model.py`: Implements the MIMO channel model.
-  - `ofdm_model.py`: Implements the OFDM channel model.
-  - `ras_model.py`: Implements the RAS channel model.
-  - `ras_simulation.py`: Simulates the behavior of the 5G NR modem with different channel models and modulation schemes.
-- `tools/`: Contains the build and test scripts.
-  - `ras_build_script.sh`: Builds the RAS layer, test framework, and UART driver.
-  - `ras_test_script.sh`: Runs the test framework and generates test reports.
-- `.gitignore`: Specifies files and directories to be ignored by version control.
-- `README.md`: Provides an overview and instructions for the project.
-- `LICENSE`: Contains the license information for the project.
 
 ## Getting Started
 
@@ -89,7 +75,12 @@ To get started with the project, follow these steps:
    cd 5G-NR-Modem-Software-Development
    ```
 
-3. Review the project documentation in the `docs/` directory to understand the design, test plan, and test report.
+3. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Review the project documentation in the `docs/` directory to understand the design, test plan, and test report.
 
 ## Prerequisites
 
@@ -97,24 +88,39 @@ Before building and running the project, ensure that you have the following prer
 
 - GCC Compiler
 - Python (version 3.10 or higher)
+- Matplotlib (version 3.8.4 or higher)
 
 ## Building the Project
 
-To build the RAS layer, test framework, and UART driver, run the following command:
+### Linux
+
+To build the RAS layer, test framework, and UART driver on Linux, run the following command:
 ```
-./tools/ras_build_script.sh
+./tools/ras_build_linux.sh
 ```
 
-This script will compile the source code and generate the necessary object files and libraries.
+### Windows
+
+To build the RAS layer, test framework, and UART driver on Windows, run the following command:
+```
+tools\ras_build.bat
+```
 
 ## Running the Tests
 
-To run the test framework and generate the test reports, use the following command:
+### Linux
+
+To run the test framework and generate the test reports on Linux, use the following command:
 ```
-./tools/ras_test_script.sh
+./tools/ras_test_linux.sh
 ```
 
-The test script will execute the test cases defined in `code/test/ras_test.c` and provide the test results and analysis.
+### Windows
+
+To run the test framework and generate the test reports on Windows, use the following command:
+```
+tools\ras_test.bat
+```
 
 ## Simulation and Modeling
 
@@ -125,13 +131,51 @@ To run the simulations, use the following command:
 python simulations/ras_simulation.py
 ```
 
-The simulation script will execute the modeling and simulation algorithms for various scenarios and provide the average Bit Error Rate (BER) for each scenario.
-
 ## Simulation Results
 
-The simulation results provide insights into the performance of the 5G NR modem under different channel conditions and modulation schemes. The average BER is calculated for each scenario, and the results are plotted using Matplotlib for visual comparison.
+The simulation results provide insights into the performance of the 5G NR modem under different channel conditions and modulation schemes. The average BER is calculated for each scenario, and the results are displayed in the terminal.
 
-For a detailed analysis of the simulation results, refer to the [Simulation Results Report](docs/simulation_results_report.md) in the `docs/` directory.
+Example simulation results:
+```
+Running RAS simulation with rayleigh channel and QPSK modulation...
+Average BER for RAS with rayleigh channel and QPSK modulation: 0.510215
+
+Running OFDM simulation with rician channel and 16QAM modulation...
+Average BER for OFDM with rician channel and 16QAM modulation: 0.841766
+
+Running MIMO simulation with rayleigh channel and 64QAM modulation...
+Average BER for MIMO with rayleigh channel and 64QAM modulation: 0.904750
+
+Simulation Results:
+Model: ras, Channel: rayleigh, Modulation: qpsk, Average BER: 0.510215
+Model: ofdm, Channel: rician, Modulation: 16qam, Average BER: 0.841766
+Model: mimo, Channel: rayleigh, Modulation: 64qam, Average BER: 0.904750
+```
+
+## Mathematical Analysis
+
+The simulation results can be analyzed mathematically to understand the performance differences between the different models and modulation schemes.
+
+- RAS (Random Access Stratum) model:
+  - The RAS model simulates the basic random access procedure in the 5G NR network.
+  - The BER performance of the RAS model depends on factors such as the number of subcarriers, number of symbols, and the modulation scheme used.
+  - The RAS model with QPSK modulation achieves an average BER of 0.510215, indicating that approximately 51% of the bits are in error.
+
+- OFDM (Orthogonal Frequency Division Multiplexing) model:
+  - The OFDM model simulates the multi-carrier modulation technique used in 5G NR.
+  - OFDM divides the available bandwidth into multiple orthogonal subcarriers, allowing for efficient spectrum utilization and robustness against multipath fading.
+  - The BER performance of the OFDM model is influenced by the number of subcarriers, cyclic prefix length, and the modulation scheme.
+  - The OFDM model with 16-QAM modulation and Rician channel achieves an average BER of 0.841766, indicating a higher error rate compared to the RAS model.
+
+- MIMO (Multiple Input Multiple Output) model:
+  - The MIMO model simulates the use of multiple antennas at both the transmitter and receiver to improve system capacity and reliability.
+  - MIMO exploits spatial diversity and multiplexing to enhance the signal quality and data throughput.
+  - The BER performance of the MIMO model depends on factors such as the number of transmit and receive antennas, channel conditions, and the modulation scheme.
+  - The MIMO model with 64-QAM modulation and Rayleigh channel achieves an average BER of 0.904750, the highest among the simulated scenarios.
+
+The mathematical analysis suggests that the RAS model with QPSK modulation performs better in terms of BER compared to the OFDM and MIMO models with higher-order modulation schemes. However, it's important to note that the performance may vary depending on the specific channel conditions and system parameters.
+
+Further mathematical analysis can be conducted to derive theoretical BER expressions for each model and modulation scheme, taking into account factors such as signal-to-noise ratio (SNR), channel fading characteristics, and diversity techniques employed.
 
 ## Documentation
 

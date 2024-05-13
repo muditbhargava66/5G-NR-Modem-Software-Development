@@ -46,10 +46,12 @@ class RASSimulation:
 
     def run_simulation(self, num_iterations, num_workers):
         """Run the RAS simulation for a specified number of iterations using multiple workers."""
+        print(f"Running {self.model_type.upper()} simulation with {self.channel_type} channel and {self.modulation_type.upper()} modulation...")
         with concurrent.futures.ThreadPoolExecutor(max_workers=num_workers) as executor:
             futures = [executor.submit(self._run_single_simulation) for _ in range(num_iterations)]
             results = [future.result() for future in concurrent.futures.as_completed(futures)]
         average_ber = sum(results) / num_iterations
+        print(f"Average BER for {self.model_type.upper()} with {self.channel_type} channel and {self.modulation_type.upper()} modulation: {average_ber:.6f}")
         return average_ber
 
     def _run_single_simulation(self):
@@ -83,6 +85,12 @@ if __name__ == '__main__':
         simulation = RASSimulation(**scenario)
         average_ber = simulation.run_simulation(num_iterations, num_workers)
         results.append({'scenario': scenario, 'average_ber': average_ber})
+
+    # Print the simulation results
+    print("\nSimulation Results:")
+    for result in results:
+        scenario = result['scenario']
+        average_ber = result['average_ber']
         print(f"Model: {scenario['model_type']}, Channel: {scenario['channel_type']}, Modulation: {scenario['modulation_type']}, Average BER: {average_ber:.6f}")
 
     # Plot the BER results for different scenarios

@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# This manage file provides a convenient way to perform various tasks related to the project. It includes the following functions:
+
+# 1. build: Builds the project using the appropriate build script based on the operating system (macOS, Linux, or Windows with Git Bash).
+# 2. run_tests: Runs the tests using the appropriate test script based on the operating system.
+# 3. run_simulations: Runs the simulations by executing the ras_simulation.py script.
+# 4. clean: Cleans the project by removing the build directory, object files, library files, Python bytecode files, and __pycache__ directories.
+# 5. display_help: Displays help information with the available commands.
+
+# The manage file uses conditional statements to determine the operating system and execute the appropriate scripts accordingly.
+# To use the manage file, make sure it is located in the project's root directory and has execute permissions. You can run it with the following commands:
+
+# ./manage build : Builds the project.
+# ./manage test : Runs the tests.
+# ./manage simulate : Runs the simulations.
+# ./manage clean : Cleans the project.
+# ./manage help : Displays help information.
+
+# Function to build the project
+build() {
+    echo "Building the project..."
+    
+    if [ "$(uname)" == "Darwin" ]; then
+        # macOS
+        ./tools/ras_build_script.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Linux
+        ./tools/ras_build_linux.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ] || [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Windows (Git Bash)
+        ./tools/ras_build.bat
+    else
+        echo "Unsupported operating system."
+        exit 1
+    fi
+}
+
+# Function to run tests
+run_tests() {
+    echo "Running tests..."
+    
+    if [ "$(uname)" == "Darwin" ]; then
+        # macOS
+        ./tools/ras_test_script.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Linux
+        ./tools/ras_test_linux.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ] || [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Windows (Git Bash)
+        ./tools/ras_test.bat
+    else
+        echo "Unsupported operating system."
+        exit 1
+    fi
+}
+
+# Function to run simulations
+run_simulations() {
+    echo "Running simulations..."
+    python simulations/ras_simulation.py
+}
+
+# Function to clean the project
+clean() {
+    echo "Cleaning the project..."
+    rm -rf build/
+    find . -name "*.o" -type f -delete
+    find . -name "*.a" -type f -delete
+    find . -name "*.pyc" -type f -delete
+    find . -name "__pycache__" -type d -exec rm -rf {} +
+}
+
+# Function to display help information
+display_help() {
+    echo "Usage: ./manage [command]"
+    echo ""
+    echo "Commands:"
+    echo "  build           Build the project"
+    echo "  test            Run tests"
+    echo "  simulate        Run simulations"
+    echo "  clean           Clean the project"
+    echo "  help            Display this help information"
+}
+
+# Main script
+if [ $# -eq 0 ]; then
+    display_help
+else
+    case "$1" in
+        "build")
+            build
+            ;;
+        "test")
+            run_tests
+            ;;
+        "simulate")
+            run_simulations
+            ;;
+        "clean")
+            clean
+            ;;
+        "help")
+            display_help
+            ;;
+        *)
+            echo "Invalid command: $1"
+            display_help
+            exit 1
+            ;;
+    esac
+fi

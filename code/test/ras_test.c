@@ -68,6 +68,10 @@ int main(void) {
     test_ras_transmit_data();
     test_ras_receive_data();
     test_ras_error_handling();
+
+    // Clean up and destroy the RAS layer
+    ras_destroy();
+
     return 0;
 }
 
