@@ -1,5 +1,11 @@
 # 5G NR Modem Software Development
 
+![5G NR Modem Logo](docs/images/5g-nr-modem-logo.png)
+
+[![License](https://img.shields.io/github/license/muditbhargava66/5G-NR-Modem-Software-Development)](LICENSE)
+[![C/C++](https://img.shields.io/badge/language-C%2FC%2B%2B-blue)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![Issues](https://img.shields.io/github/issues/muditbhargava66/5G-NR-Modem-Software-Development)](https://github.com/muditbhargava66/5G-NR-Modem-Software-Development/issues)
+
 This project aims to design, implement, and test a 5G NR modem software component, focusing on the Radio Access Stratum (RAS) layer. The project demonstrates expertise in modem software development, RF and WWAN L1/L2/L3 specifications, and collaboration with cross-functional teams.
 
 ## Table of Contents
